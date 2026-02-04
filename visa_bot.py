@@ -7,12 +7,16 @@ CHAT_ID = os.environ["CHAT_ID"]
 
 STATE_FILE = "state.json"
 
-closed_keywords = [
+CLOSED_KEYWORDS = [
     "no appointment",
     "no available appointments",
     "all appointments are booked",
-    "please check back later"
+    "fully booked",
+    "please check back later",
+    "currently no slots",
+    "appointments are not available"
 ]
+
 # ---------------- STATE ----------------
 
 def load_state():
@@ -37,15 +41,24 @@ def send_telegram(message):
         "text": message
     })
 
+# ------------- CHECK OPEN -------------
+
+def is_open_by_keywords(page_text, extra_closed=None):
+    text = page_text.lower()
+    keywords = CLOSED_KEYWORDS.copy()
+
+    if extra_closed:
+        keywords.extend(extra_closed)
+
+    return not any(k in text for k in keywords)
+
 # ---------------- BLS ----------------
 
 BLS_URL = "https://ankara.blsspainvisa.com/appointment.php"
 
 def is_bls_open():
     r = requests.get(BLS_URL, timeout=20)
-    page = r.text.lower()
-    
-    return not any(k in page for k in closed_keywords)
+    return is_open_by_keywords(r.text)
 
 # ---------------- VFS CZECH ----------------
 
@@ -53,9 +66,7 @@ VFS_CZ_URL = "https://visa.vfsglobal.com/tur/en/cze/"
 
 def is_vfs_czech_open():
     r = requests.get(VFS_CZ_URL, timeout=20)
-    page = r.text.lower()
-    
-    return not any(k in page for k in closed_keywords)
+    return is_open_by_keywords(r.text)
 
 # ---------------- MAIN ----------------
 
