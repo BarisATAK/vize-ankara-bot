@@ -1,11 +1,34 @@
 import requests
 import os
+import json
 
-BLS_URL = "https://www.blsspainvisa.com/turkey/ankara/"
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
-STATE_FILE = "state.txt"
 
+STATE_FILE = "state.json"
+
+closed_keywords = [
+    "no appointment",
+    "no available appointments",
+    "all appointments are booked",
+    "please check back later"
+]
+# ---------------- STATE ----------------
+
+def load_state():
+    if os.path.exists(STATE_FILE):
+        with open(STATE_FILE, "r") as f:
+            return json.load(f)
+    return {
+        "bls_spain": False,
+        "vfs_czech": False
+    }
+
+def save_state(state):
+    with open(STATE_FILE, "w") as f:
+        json.dump(state, f)
+
+# ---------------- TELEGRAM ----------------
 
 def send_telegram(message):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -14,58 +37,48 @@ def send_telegram(message):
         "text": message
     })
 
+# ---------------- BLS ----------------
 
-def is_appointment_open():
+BLS_URL = "https://ankara.blsspainvisa.com/appointment.php"
+
+def is_bls_open():
     r = requests.get(BLS_URL, timeout=20)
     page = r.text.lower()
+    
+    return not any(k in page for k in closed_keywords)
 
-    # BLS genelde kapalıyken bu ifadeler olur
-    closed_keywords = [
-        "no appointment",
-        "currently no slots",
-        "appointment slots are not available"
-    ]
-    return True
-    #return not any(k in page for k in closed_keywords)
+# ---------------- VFS CZECH ----------------
 
+VFS_CZ_URL = "https://visa.vfsglobal.com/tur/en/cze/"
 
-def load_previous_state():
-    if not os.path.exists(STATE_FILE):
-        return None  # ilk çalıştırma
-    with open(STATE_FILE, "r") as f:
-        return f.read().strip()
+def is_vfs_czech_open():
+    r = requests.get(VFS_CZ_URL, timeout=20)
+    page = r.text.lower()
+    
+    return not any(k in page for k in closed_keywords)
 
-
-def save_state(state):
-    with open(STATE_FILE, "w") as f:
-        f.write(state)
-
+# ---------------- MAIN ----------------
 
 def main():
-    current_open = is_appointment_open()
-    previous_state = load_previous_state()
+    state = load_state()
 
-    # previous_state: None | "open" | "closed"
+    # BLS
+    bls_open = is_bls_open()
+    if bls_open and not state["bls_spain"]:
+        send_telegram("🇪🇸 BLS İSPANYA (ANKARA) RANDEVU AÇILDI!")
+        state["bls_spain"] = True
+    elif not bls_open:
+        state["bls_spain"] = False
 
-    if previous_state is None:
-        # Bot ilk kez çalışıyor
-        if current_open:
-            send_telegram("🚨 BLS Ankara RANDEVU AÇIK!")
-            save_state("open")
-        else:
-            save_state("closed")
+    # VFS
+    vfs_open = is_vfs_czech_open()
+    if vfs_open and not state["vfs_czech"]:
+        send_telegram("🇨🇿 VFS ÇEK CUMHURİYETİ RANDEVU AÇILDI!")
+        state["vfs_czech"] = True
+    elif not vfs_open:
+        state["vfs_czech"] = False
 
-    elif previous_state == "closed" and current_open:
-        # Kapalı → Açık
-        send_telegram("🚨 BLS Ankara RANDEVU AÇILDI!")
-        save_state("open")
-
-    elif previous_state == "open" and not current_open:
-        # Açık → Kapalı
-        save_state("closed")
-
-    # Diğer durumlar: hiçbir şey yapma
-
+    save_state(state)
 
 if __name__ == "__main__":
     main()
