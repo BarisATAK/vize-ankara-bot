@@ -25,8 +25,8 @@ def is_appointment_open():
         "currently no slots",
         "appointment slots are not available"
     ]
-
-    return not any(k in page for k in closed_keywords)
+    return True
+    #return not any(k in page for k in closed_keywords)
 
 
 def load_previous_state():
