@@ -1,4 +1,4 @@
-name: Visa Appointment Checker For Ankara / Just Spain For Now
+name: Visa Appointment Checker For Ankara / Just Spain and Chezch For Now
 
 on:
   schedule:
@@ -12,22 +12,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Cache state
-        uses: actions/cache@v4
+      - name: Restore state cache
+        uses: actions/cache@v3
         with:
-          path: state.txt
-          key: bls-state
+          path: state.json
+          key: visa-state
 
-      - name: Python kur
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.13.9"
 
-      - name: Bağımlılıklar
+      - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Çalıştır
+      - name: Run bot
+        run: python visa_bot.py
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-        run: python visa_bot.py
