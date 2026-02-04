@@ -50,7 +50,7 @@ def main():
     if previous_state is None:
         # Bot ilk kez çalışıyor
         if current_open:
-            send_telegram("🚨 BLS Ankara RANDEVU AÇIK! (bot ilk çalıştırma)")
+            send_telegram("🚨 BLS Ankara RANDEVU AÇIK!")
             save_state("open")
         else:
             save_state("closed")
