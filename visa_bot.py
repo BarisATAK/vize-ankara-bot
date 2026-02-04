@@ -1,21 +1,10 @@
 import requests
-from bs4 import BeautifulSoup
-import time
 import os
 
-# ================== AYARLAR ==================
-BLS_URL = "https://www.blsinternational.com/turkey/visa/spain/"
-
+BLS_URL = "https://www.blsspainvisa.com/turkey/ankara/"
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
-
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-    "Accept-Language": "tr-TR,tr;q=0.9"
-}
-# =============================================
-
-last_status = None
+STATE_FILE = "state.txt"
 
 
 def send_telegram(message):
@@ -26,37 +15,57 @@ def send_telegram(message):
     })
 
 
-def check_bls():
-    global last_status
+def is_appointment_open():
+    r = requests.get(BLS_URL, timeout=20)
+    page = r.text.lower()
 
-    response = requests.get(BLS_URL, headers=HEADERS, timeout=20)
-    soup = BeautifulSoup(response.text, "html.parser")
-    page_text = soup.get_text().lower()
+    # BLS genelde kapalıyken bu ifadeler olur
+    closed_keywords = [
+        "no appointment",
+        "currently no slots",
+        "appointment slots are not available"
+    ]
 
-    current_status = "closed" if "not available" in page_text else "open"
-
-    # 🔹 İlk çalıştırma
-    if last_status is None:
-        last_status = current_status
-        if current_status == "open":
-            send_telegram(
-                "🚨 BLS ANKARA İSPANYA RANDEVUSU ZATEN AÇIK!\n"
-                "Hemen kontrol et!"
-            )
-        return
-
-    # 🔹 Kapalı → Açık
-    if last_status == "closed" and current_status == "open":
-        send_telegram(
-            "🚨 BLS ANKARA İSPANYA RANDEVUSU AÇILDI!\n"
-            "Hemen kontrol et!"
-        )
-
-    last_status = current_status
+    return not any(k in page for k in closed_keywords)
 
 
-send_telegram("🤖 BLS Ankara randevu botu başlatıldı.")
+def load_previous_state():
+    if not os.path.exists(STATE_FILE):
+        return None  # ilk çalıştırma
+    with open(STATE_FILE, "r") as f:
+        return f.read().strip()
 
-while True:
-    check_bls()
-    time.sleep(600)  # 10 dakika
+
+def save_state(state):
+    with open(STATE_FILE, "w") as f:
+        f.write(state)
+
+
+def main():
+    current_open = is_appointment_open()
+    previous_state = load_previous_state()
+
+    # previous_state: None | "open" | "closed"
+
+    if previous_state is None:
+        # Bot ilk kez çalışıyor
+        if current_open:
+            send_telegram("🚨 BLS Ankara RANDEVU AÇIK! (bot ilk çalıştırma)")
+            save_state("open")
+        else:
+            save_state("closed")
+
+    elif previous_state == "closed" and current_open:
+        # Kapalı → Açık
+        send_telegram("🚨 BLS Ankara RANDEVU AÇILDI!")
+        save_state("open")
+
+    elif previous_state == "open" and not current_open:
+        # Açık → Kapalı
+        save_state("closed")
+
+    # Diğer durumlar: hiçbir şey yapma
+
+
+if __name__ == "__main__":
+    main()
