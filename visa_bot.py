@@ -69,7 +69,9 @@ def is_bls_es_open():
         "Accept-Language": "tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7",
     }
     r = requests.get(BLS_URL, headers=headers, timeout=20)
-
+    r.find_element(By.ID, "email").send_keys(("atakbarisss@gmail.com")) 
+    r.find_element(By.ID, "verify").click()
+    
     print("STATUS:", r.status_code)
     print("URL:", r.url)
     print("HTML ilk 300:", r.text[:300])
