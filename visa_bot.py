@@ -54,19 +54,27 @@ def is_open_by_keywords(page_text, extra_closed=None):
 
 # ---------------- BLS ----------------
 
-BLS_URL = "https://ankara.blsspainvisa.com/appointment.php"
+BLS_URL = "https://www.blsspainvisa.com/turkey/ankara/"
 
 def is_bls_open():
-    r = requests.get(BLS_URL, timeout=20)
-    return is_open_by_keywords(r.text)
+    try:
+        r = requests.get(BLS_URL, timeout=20)
+        return is_open_by_keywords(r.text)
+    except Exception as e:
+        print("BLS error:", e)
+        return False
 
 # ---------------- VFS CZECH ----------------
 
 VFS_CZ_URL = "https://visa.vfsglobal.com/tur/en/cze/"
 
 def is_vfs_czech_open():
-    r = requests.get(VFS_CZ_URL, timeout=20)
-    return is_open_by_keywords(r.text)
+    try:
+        r = requests.get(VFS_CZ_URL, timeout=20)
+        return is_open_by_keywords(r.text)
+    except Exception as e:
+        print("VFS error:", e)
+        return False
 
 # ---------------- MAIN ----------------
 
