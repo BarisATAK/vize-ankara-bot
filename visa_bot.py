@@ -55,7 +55,7 @@ def is_open_by_keywords(page_text, extra_closed=None):
     return not any(k in text for k in keywords)
 
 # ---------------- BLS/SPAIN----------------
-BLS_URL = https://turkey.blsspainvisa.com/ankara/
+BLS_URL = "https://turkey.blsspainvisa.com/ankara/"
 #BLS_URL = "https://www.blsspainvisa.com/turkey/ankara/"
 #BLS_URL = "https://turkey.blsspainglobal.com/Global/Appointment/NewAppointment"
 def is_bls_es_open():
