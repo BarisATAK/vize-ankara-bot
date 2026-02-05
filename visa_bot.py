@@ -59,7 +59,7 @@ def is_open_by_keywords(page_text, extra_closed=None):
 BLS_URL = "https://www.blsspainvisa.com/turkey/ankara/"
 #BLS_URL = "https://turkey.blsspainglobal.com/Global/Appointment/NewAppointment"
 def is_bls_es_open():
-    try:
+#    try:
         headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                       "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -76,9 +76,9 @@ def is_bls_es_open():
     #    r = requests.get(BLS_URL, timeout=20)
         print("", r.text)#debug.
         return is_open_by_keywords(r.text)
-    except Exception as e:
-        print("BLS/ES error:", e)
-        return False
+#    except Exception as e:
+    #    print("BLS/ES error:", e)
+   #     return False
 
 # ---------------- VFS/CZECH ----------------
 
