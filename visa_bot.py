@@ -26,6 +26,7 @@ def load_state():
     return {
         "bls_spain": False,
         "vfs_czech": False
+        "vfs_france": False
     }
 
 def save_state(state):
@@ -53,19 +54,19 @@ def is_open_by_keywords(page_text, extra_closed=None):
     #return True #For test. Delete Cache and run workflow.
     return not any(k in text for k in keywords)
 
-# ---------------- BLS ----------------
+# ---------------- BLS/SPAIN----------------
 
 BLS_URL = "https://www.blsspainvisa.com/turkey/ankara/"
 
-def is_bls_open():
+def is_bls_es_open():
     try:
         r = requests.get(BLS_URL, timeout=20)
         return is_open_by_keywords(r.text)
     except Exception as e:
-        print("BLS error:", e)
+        print("BLS/ES error:", e)
         return False
 
-# ---------------- VFS CZECH ----------------
+# ---------------- VFS/CZECH ----------------
 
 VFS_CZ_URL = "https://visa.vfsglobal.com/tur/en/cze/"
 
@@ -74,30 +75,50 @@ def is_vfs_czech_open():
         r = requests.get(VFS_CZ_URL, timeout=20)
         return is_open_by_keywords(r.text)
     except Exception as e:
-        print("VFS error:", e)
+        print("VFS/CZ error:", e)
         return False
 
+# ---------------- VFS/FRANCE ----------------
+
+VFS_FR_URL = "https://visa.vfsglobal.com/tur/en/fra/"
+
+def is_vfs_fr_open():
+    try:
+        r = requests.get(VFS_FR_URL, timeout=20)
+        return is_open_by_keywords(r.text)
+    except Exception as e:
+        print("VFS/FR error:", e)
+        return False
+        
 # ---------------- MAIN ----------------
 
 def main():
     state = load_state()
 
-    # BLS
-    bls_open = is_bls_open()
-    if bls_open and not state["bls_spain"]:
+    # BLS/ES
+    es_bls_open = is_bls_es_open()
+    if es_bls_open and not state["bls_spain"]:
         send_telegram("🇪🇸 BLS İSPANYA/ANKARA RANDEVU AÇILDI!")
         state["bls_spain"] = True
     elif not bls_open:
         state["bls_spain"] = False
 
-    # VFS
-    vfs_open = is_vfs_czech_open()
-    if vfs_open and not state["vfs_czech"]:
+    # VFS/CZ
+    cz_vfs_open = is_vfs_czech_open()
+    if cz_vfs_open and not state["vfs_czech"]:
         send_telegram("🇨🇿 VFS ÇEK CUMHURİYETİ/ANKARA RANDEVU AÇILDI!")
         state["vfs_czech"] = True
     elif not vfs_open:
         state["vfs_czech"] = False
 
+    # VFS/FR
+    fr_vfs_open = is_fr_vfs_open()
+    if fr_vfs_open and not state["vfs_france"]:
+        send_telegram("fr VFS FRANSA/ANKARA RANDEVU AÇILDI!")
+        state["vfs_france"] = True
+    elif not vfs_open:
+        state["vfs_france"] = False
+        
     save_state(state)
 
 if __name__ == "__main__":
