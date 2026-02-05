@@ -104,21 +104,21 @@ def main():
     elif not es_bls_open:
         state["bls_spain"] = False
 
-    # VFS/CZ
-    cz_vfs_open = is_vfs_czech_open()
-    if cz_vfs_open and not state["vfs_czech"]:
-        send_telegram("🇨🇿 VFS ÇEK CUMHURİYETİ/ANKARA RANDEVU AÇILDI!")
-        state["vfs_czech"] = True
-    elif not cz_vfs_open:
-        state["vfs_czech"] = False
+    # VFS/CZ  
+    #cz_vfs_open = is_vfs_czech_open()
+ #   if cz_vfs_open and not state["vfs_czech"]:
+  #      send_telegram("🇨🇿 VFS ÇEK CUMHURİYETİ/ANKARA RANDEVU AÇILDI!")
+   #     state["vfs_czech"] = True
+ #   elif not cz_vfs_open:
+#        state["vfs_czech"] = False
 
     # VFS/FR
-    fr_vfs_open = is_vfs_fr_open()
-    if fr_vfs_open and not state["vfs_france"]:
-        send_telegram("🇫🇷 VFS FRANSA/ANKARA RANDEVU AÇILDI!")
-        state["vfs_france"] = True
-    elif not fr_vfs_open:
-        state["vfs_france"] = False
+ #   fr_vfs_open = is_vfs_fr_open()
+ #   if fr_vfs_open and not state["vfs_france"]:
+#        send_telegram("🇫🇷 VFS FRANSA/ANKARA RANDEVU AÇILDI!")
+     #   state["vfs_france"] = True
+    #elif not fr_vfs_open:
+    #    state["vfs_france"] = False
         
     save_state(state)
 
