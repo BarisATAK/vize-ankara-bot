@@ -114,7 +114,7 @@ def main():
     # VFS/FR
     fr_vfs_open = is_vfs_fr_open()
     if fr_vfs_open and not state["vfs_france"]:
-        send_telegram("fr VFS FRANSA/ANKARA RANDEVU AÇILDI!")
+        send_telegram("🇫🇷 VFS FRANSA/ANKARA RANDEVU AÇILDI!")
         state["vfs_france"] = True
     elif not vfs_open:
         state["vfs_france"] = False
