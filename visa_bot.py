@@ -56,7 +56,7 @@ def is_open_by_keywords(page_text, extra_closed=None):
 
 # ---------------- BLS/SPAIN----------------
 BLS_URL = "https://turkey.blsspainglobal.com/Global/Appointment/NewAppointment/"
-BLS_URL = "https://turkey.blsspainglobal.com/Global/Appointment/NewAppointment?msg=ZokWWxtCWRl2wwydQeR8iMSec%2BFRGm9yoFAG67YF%2FE46MHP"KOT4E5B42DNnLtDwr&d=aH9rjw8Wj1AtbNR%2FgiKxcz0Q5xZQFX0YTVkESKdLbvCbbv%2F0VV14ZM1OVZTJY8Oy9Z0SxgwqZ22D8M4M11Sect%2F1NDTFTPdXFfTbHFlJ2EQrx3c2raUDdV3xYmzefSMLbMd6SS0mYE3sCEDw0F4WAExH%2FHiNRwbeQJqr4dTKaBs85fMoKO3UhO03fZpXxy38aYUfNwJ9BGnbKdF98FWvsbzClbTKjq957lOfCDNQxHnG%2BCVNUYa5Wc6xvP%2BffObfLnqjIYPh8UbLhKk%2BKdhPcHSnbbUhGF5QZ3Gl0j9ZJWmBOFOVuiB9qjYsFSKBzRAx"
+#BLS_URL = "https://turkey.blsspainglobal.com/Global/Appointment/NewAppointment?msg=ZokWWxtCWRl2wwydQeR8iMSec%2BFRGm9yoFAG67YF%2FE46MHP"KOT4E5B42DNnLtDwr&d=aH9rjw8Wj1AtbNR%2FgiKxcz0Q5xZQFX0YTVkESKdLbvCbbv%2F0VV14ZM1OVZTJY8Oy9Z0SxgwqZ22D8M4M11Sect%2F1NDTFTPdXFfTbHFlJ2EQrx3c2raUDdV3xYmzefSMLbMd6SS0mYE3sCEDw0F4WAExH%2FHiNRwbeQJqr4dTKaBs85fMoKO3UhO03fZpXxy38aYUfNwJ9BGnbKdF98FWvsbzClbTKjq957lOfCDNQxHnG%2BCVNUYa5Wc6xvP%2BffObfLnqjIYPh8UbLhKk%2BKdhPcHSnbbUhGF5QZ3Gl0j9ZJWmBOFOVuiB9qjYsFSKBzRAx"
 #BLS_URL = "https://turkey.blsspainvisa.com/ankara/"
 #BLS_URL = "https://www.blsspainvisa.com/turkey/ankara/"
 #BLS_URL = "https://turkey.blsspainglobal.com/Global/Appointment/NewAppointment"
