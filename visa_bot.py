@@ -112,7 +112,7 @@ def main():
         state["vfs_czech"] = False
 
     # VFS/FR
-    fr_vfs_open = is_fr_vfs_open()
+    fr_vfs_open = is_vfs_fr_open()
     if fr_vfs_open and not state["vfs_france"]:
         send_telegram("fr VFS FRANSA/ANKARA RANDEVU AÇILDI!")
         state["vfs_france"] = True
