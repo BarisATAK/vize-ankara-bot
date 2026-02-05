@@ -50,8 +50,8 @@ def is_open_by_keywords(page_text, extra_closed=None):
     if extra_closed:
         keywords.extend(extra_closed)
 
-    return True
-    #return not any(k in text for k in keywords)
+    #return True #For test. Delete Cache and run workflow.
+    return not any(k in text for k in keywords)
 
 # ---------------- BLS ----------------
 
@@ -85,7 +85,7 @@ def main():
     # BLS
     bls_open = is_bls_open()
     if bls_open and not state["bls_spain"]:
-        send_telegram("🇪🇸 BLS İSPANYA (ANKARA) RANDEVU AÇILDI!")
+        send_telegram("🇪🇸 BLS İSPANYA/ANKARA RANDEVU AÇILDI!")
         state["bls_spain"] = True
     elif not bls_open:
         state["bls_spain"] = False
@@ -93,7 +93,7 @@ def main():
     # VFS
     vfs_open = is_vfs_czech_open()
     if vfs_open and not state["vfs_czech"]:
-        send_telegram("🇨🇿 VFS ÇEK CUMHURİYETİ RANDEVU AÇILDI!")
+        send_telegram("🇨🇿 VFS ÇEK CUMHURİYETİ/ANKARA RANDEVU AÇILDI!")
         state["vfs_czech"] = True
     elif not vfs_open:
         state["vfs_czech"] = False
