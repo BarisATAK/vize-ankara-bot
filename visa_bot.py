@@ -61,7 +61,7 @@ BLS_URL = "https://www.blsspainvisa.com/turkey/ankara/"
 def is_bls_es_open():
     try:
         print("GIRDIMMMMMM")
-        r = requests.get(BLS_URL, headers=headers, timeout=20)
+        r = requests.get(BLS_URL, timeout=20)
         print("", r.text)#debug.
         return is_open_by_keywords(r.text)
     except Exception as e:
