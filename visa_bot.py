@@ -56,8 +56,8 @@ def is_open_by_keywords(page_text, extra_closed=None):
 
 # ---------------- BLS/SPAIN----------------
 
-#BLS_URL = "https://www.blsspainvisa.com/turkey/ankara/"
-BLS_URL = "https://turkey.blsspainglobal.com/Global/Appointment/NewAppointment"
+BLS_URL = "https://www.blsspainvisa.com/turkey/ankara/"
+#BLS_URL = "https://turkey.blsspainglobal.com/Global/Appointment/NewAppointment"
 def is_bls_es_open():
     try:
         headers = {
