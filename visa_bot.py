@@ -66,7 +66,6 @@ def is_bls_es_open():
                       "Chrome/121.0.0.0 Safari/537.36",
         "Accept-Language": "tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7",
     }
-
     r = requests.get(BLS_URL, headers=headers, timeout=20)
 
     print("STATUS:", r.status_code)
