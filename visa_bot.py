@@ -50,7 +50,8 @@ def is_open_by_keywords(page_text, extra_closed=None):
     if extra_closed:
         keywords.extend(extra_closed)
 
-    return not any(k in text for k in keywords)
+    return True
+    #return not any(k in text for k in keywords)
 
 # ---------------- BLS ----------------
 
