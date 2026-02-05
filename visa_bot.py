@@ -60,17 +60,9 @@ BLS_URL = "https://www.blsspainvisa.com/turkey/ankara/"
 #BLS_URL = "https://turkey.blsspainglobal.com/Global/Appointment/NewAppointment"
 def is_bls_es_open():
     try:
-        headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                      "AppleWebKit/537.36 (KHTML, like Gecko) "
-                      "Chrome/121.0.0.0 Safari/537.36",
-        "Accept-Language": "tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Connection": "keep-alive"
-    }
-
+        print("GIRDIMMMMMM")
         r = requests.get(BLS_URL, headers=headers, timeout=20)
-        print(r.text)#debug.
+        print("", r.text)#debug.
         return is_open_by_keywords(r.text)
     except Exception as e:
         print("BLS/ES error:", e)
