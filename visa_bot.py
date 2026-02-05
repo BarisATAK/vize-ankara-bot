@@ -25,7 +25,7 @@ def load_state():
             return json.load(f)
     return {
         "bls_spain": False,
-        "vfs_czech": False
+        "vfs_czech": False,
         "vfs_france": False
     }
 
