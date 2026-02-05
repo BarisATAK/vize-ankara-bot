@@ -72,7 +72,7 @@ def is_bls_es_open():
     print("STATUS:", r.status_code)
     print("URL:", r.url)
     print("HTML ilk 300:", r.text[:300])
-        print("GIRDIMMMMMM")
+    print("GIRDIMMMMMM")
     #    r = requests.get(BLS_URL, timeout=20)
         print("", r.text)#debug.
         return is_open_by_keywords(r.text)
