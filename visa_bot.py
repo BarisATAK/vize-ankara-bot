@@ -74,7 +74,7 @@ def is_bls_es_open():
     print("GIRDIMMMMMM")
     #    r = requests.get(BLS_URL, timeout=20)
     print("", r.text)#debug.
-        return is_open_by_keywords(r.text)
+    return is_open_by_keywords(r.text)
 #    except Exception as e:
     #    print("BLS/ES error:", e)
    #     return False
