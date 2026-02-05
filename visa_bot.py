@@ -13,7 +13,7 @@ CLOSED_KEYWORDS = [
     "all appointments are booked",
     "fully booked",
     "please check back later",
-    "currently no slots",
+    "no slots",
     "appointments are not available"
 ]
 
